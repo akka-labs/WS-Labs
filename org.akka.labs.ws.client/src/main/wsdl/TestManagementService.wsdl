@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="TestManagementService" targetNamespace="http://org.akka.labs.ws.client/v1/" xmlns:ns1="http://org.galaxy.test/v1/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://org.akka.labs.ws.client/v1/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema elementFormDefault="unqualified" targetNamespace="http://org.akka.labs.ws.client/v1/" version="1.0" xmlns:tns="http://org.akka.labs.ws.client/v1/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="readData" type="tns:readData"/>
+<xs:element name="readDataResponse" type="tns:readDataResponse"/>
+<xs:element name="shouldFail" type="tns:shouldFail"/>
+<xs:element name="shouldFailResponse" type="tns:shouldFailResponse"/>
+<xs:element name="testCard" type="tns:testCard"/>
+<xs:element name="testCardResponse" type="tns:testCardResponse"/>
+<xs:element name="writeData" type="tns:writeData"/>
+<xs:element name="writeDataResponse" type="tns:writeDataResponse"/>
+<xs:complexType name="readData">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="readDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dataHandler" type="xs:base64Binary"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="testCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="mandatory" type="xs:string"/>
+      <xs:element minOccurs="0" name="optional" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="testCardResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="writeData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dataHandler" type="xs:base64Binary"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="writeDataResponse">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="shouldFail">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="shouldFailResponse">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://org.galaxy.test/v1/" xmlns:tns="http://org.galaxy.test/v1/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="WtfPayload" type="tns:WtfPayload"/>
+  <xsd:complexType name="WtfPayload">
+    <xsd:sequence>
+      <xsd:element name="timestamp" nillable="true" type="xsd:long"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="shouldFail">
+    <wsdl:part element="tns:shouldFail" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WtfException">
+    <wsdl:part element="ns1:WtfPayload" name="WtfException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="writeData">
+    <wsdl:part element="tns:writeData" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="shouldFailResponse">
+    <wsdl:part element="tns:shouldFailResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testCard">
+    <wsdl:part element="tns:testCard" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="readData">
+    <wsdl:part element="tns:readData" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testCardResponse">
+    <wsdl:part element="tns:testCardResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="writeDataResponse">
+    <wsdl:part element="tns:writeDataResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="readDataResponse">
+    <wsdl:part element="tns:readDataResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="TestManagement">
+    <wsdl:operation name="readData">
+      <wsdl:input message="tns:readData" name="readData">
+    </wsdl:input>
+      <wsdl:output message="tns:readDataResponse" name="readDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="testCard">
+      <wsdl:input message="tns:testCard" name="testCard">
+    </wsdl:input>
+      <wsdl:output message="tns:testCardResponse" name="testCardResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="writeData">
+      <wsdl:input message="tns:writeData" name="writeData">
+    </wsdl:input>
+      <wsdl:output message="tns:writeDataResponse" name="writeDataResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="shouldFail">
+      <wsdl:input message="tns:shouldFail" name="shouldFail">
+    </wsdl:input>
+      <wsdl:output message="tns:shouldFailResponse" name="shouldFailResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WtfException" name="WtfException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TestManagementServiceSoapBinding" type="tns:TestManagement">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="readData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="readData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="readDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="testCard">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="testCard">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="testCardResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="writeData">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="writeData">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="writeDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="shouldFail">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="shouldFail">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="shouldFailResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="WtfException">
+        <soap:fault name="WtfException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TestManagementService">
+    <wsdl:port binding="tns:TestManagementServiceSoapBinding" name="TestManagementPort">
+      <soap:address location="http://localhost:8080/org.akka.labs.ws.server/TestManagementService/TestManagement"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.akka.labs.ws</groupId>
+	<artifactId>server</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<packaging>ejb</packaging>
+	<name>Test des WebServices</name>
+
+	<properties>
+		<java.version>1.6</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<j2ee.version>2.0.0.Final</j2ee.version>
+		<ejb.version>3.1</ejb.version>
+
+		<guava.version>11.0.1</guava.version>
+
+		<cxf.version>2.5.2</cxf.version>
+
+		<maven.compile.version>2.3.2</maven.compile.version>
+		<maven.ejb.version>2.3</maven.ejb.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compile.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<version>${maven.ejb.version}</version>
+				<configuration>
+					<ejbVersion>${ejb.version}</ejbVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- JEE 6 -->
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-6.0</artifactId>
+			<version>${j2ee.version}</version>
+			<type>pom</type>
+		</dependency>
+
+		<!-- Guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+			<scope>provided</scope> <!-- Provided by JBoss AS 7.1 -->
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>generate-wsdl</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-java2ws-plugin</artifactId>
+						<version>${cxf.version}</version>
+						<dependencies>
+							<dependency>
+								<groupId>org.apache.cxf</groupId>
+								<artifactId>cxf-rt-frontend-jaxws</artifactId>
+								<version>${cxf.version}</version>
+							</dependency>
+							<dependency>
+								<groupId>org.apache.cxf</groupId>
+								<artifactId>cxf-rt-frontend-simple</artifactId>
+								<version>${cxf.version}</version>
+							</dependency>
+							<dependency>
+								<groupId>xalan</groupId>
+								<artifactId>serializer</artifactId>
+								<version>2.7.1</version>
+							</dependency>
+						</dependencies>
+
+						<executions>
+							<execution>
+								<id>process-classes</id>
+								<phase>process-classes</phase>
+								<configuration>
+									<outputFile>${project.basedir}/src/generated/wsdl/TestManagementService.wsdl</outputFile>
+									<className>org.akka.labs.ws.server.impl.TestImpl</className>
+									<genWsdl>true</genWsdl>
+									<verbose>true</verbose>
+								</configuration>
+								<goals>
+									<goal>java2ws</goal>
+								</goals>
+							</execution>
+						</executions>
+						<inherited>true</inherited>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
